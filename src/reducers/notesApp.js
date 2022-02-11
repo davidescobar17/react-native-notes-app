@@ -6,7 +6,7 @@ export const RESTORE_NOTES = 'RESTORE_NOTES'
 
 import { combineReducers } from 'redux'
 
-function findFreeId (array){
+function findFreeId(array){
 
   const sortedArray = array
     .slice()
@@ -15,7 +15,7 @@ function findFreeId (array){
   let previousId = 0;
 
   for (let element of sortedArray){
-      
+    
     if (element.id != (previousId + 1)){
 
       return previousId + 1;
@@ -27,25 +27,25 @@ function findFreeId (array){
   return previousId + 1;
 }
 
-export function addnote(note) {
+export function addnote(note){
   return {
-      type: ADD_NOTE,
-      note
+    type: ADD_NOTE,
+    note
   }
 }
 
-export function deletenote(id) {
+export function deletenote(id){
   return {
-      type: DELETE_NOTE,
-      payload: id
+    type: DELETE_NOTE,
+    payload: id
   }
 }
 
-export function editnote(id, note) {
+export function editnote(id, note){
   return {
-      type: UPDATE_NOTE,
-      id: id,
-      note
+    type: UPDATE_NOTE,
+    id: id,
+    note
   }
 }
 
@@ -53,47 +53,46 @@ const initialNoteState = []
 
 function notesReducer(state = initialNoteState, action){
 
-    switch(action.type){
+  switch(action.type){
 
-        case ADD_NOTE:{
+    case ADD_NOTE:{
 
-            let idVal = findFreeId(state)
+      let idVal = findFreeId(state)
 
-            return [
-                ...state,
-                {
-                    id: idVal,
-                    note: action.note,
-                    date: new Date(),
-                }
-            ]
+      return [
+        ...state,
+        {
+          id: idVal,
+          note: action.note,
+          date: new Date(),
         }
-
-        case DELETE_NOTE:{
-
-            const deleteNewArray = remove(state, obj => {
-                return obj.id != action.payload
-            })
-
-            return deleteNewArray
-        }
-        case UPDATE_NOTE:{
-
-            const updatedArray = state.map(p =>
-                p.id === action.id
-                  ? { ...p, note: action.note, date: new Date()}
-                  : p
-              );
-
-            return updatedArray
-        }
-        default:
-            return state
+      ]
     }
+    case DELETE_NOTE:{
+
+      const deleteNewArray = remove(state, obj => {
+        return obj.id != action.payload
+      })
+
+      return deleteNewArray
+    }
+    case UPDATE_NOTE:{
+
+      const updatedArray = state.map(p =>
+        p.id === action.id
+          ? { ...p, note: action.note, date: new Date()}
+          : p
+      );
+
+      return updatedArray
+    }
+    default:
+      return state
+  }
 }
 
 const rootReducer = combineReducers({ 
-    notes: notesReducer,
-  });
+  notes: notesReducer,
+});
 
 export default rootReducer
