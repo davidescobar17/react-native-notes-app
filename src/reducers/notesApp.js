@@ -1,10 +1,10 @@
-import remove from 'lodash.remove'
-export const ADD_NOTE = 'ADD_NOTE'
-export const DELETE_NOTE = 'DELETE_NOTE'
-export const UPDATE_NOTE = 'UPDATE_NOTE'
-export const RESTORE_NOTES = 'RESTORE_NOTES'
+import remove from 'lodash.remove';
+export const ADD_NOTE = 'ADD_NOTE';
+export const DELETE_NOTE = 'DELETE_NOTE';
+export const UPDATE_NOTE = 'UPDATE_NOTE';
+export const RESTORE_NOTES = 'RESTORE_NOTES';
 
-import { combineReducers } from 'redux'
+import { combineReducers } from 'redux';
 
 function findFreeId(array){
 
@@ -57,7 +57,7 @@ function notesReducer(state = initialNoteState, action){
 
     case ADD_NOTE:{
 
-      let idVal = findFreeId(state)
+      let idVal = findFreeId(state);
 
       return [
         ...state,
@@ -70,24 +70,24 @@ function notesReducer(state = initialNoteState, action){
     }
     case DELETE_NOTE:{
 
-      const deleteNewArray = remove(state, obj => {
+      const updatedState = remove(state, obj => {
         return obj.id != action.payload
-      })
+      });
 
-      return deleteNewArray
+      return updatedState;
     }
     case UPDATE_NOTE:{
 
-      const updatedArray = state.map(p =>
+      const updatedState = state.map(p =>
         p.id === action.id
           ? { ...p, note: action.note, date: new Date()}
           : p
       );
 
-      return updatedArray
+      return updatedState;
     }
     default:
-      return state
+      return state;
   }
 }
 
@@ -95,4 +95,4 @@ const rootReducer = combineReducers({
   notes: notesReducer,
 });
 
-export default rootReducer
+export default rootReducer;

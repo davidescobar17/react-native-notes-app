@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, FlatList } from 'react-native'
-import { List, Appbar, Button as PaperButton } from 'react-native-paper'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, FlatList } from 'react-native';
+import { List, Appbar, Button as PaperButton } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
 import Modal from 'react-native-modal';
 
-import { deletenote } from '../reducers/notesApp'
-import reduxStore from '../reducers/store'
-import Header from '../components/Header'
+import { deletenote } from '../reducers/notesApp';
+import reduxStore from '../reducers/store';
+import Header from '../components/Header';
 
 function ViewNotes({navigation}){
 
-  const storeData = useSelector(state => state)
-  const dispatch = useDispatch()
+  const storeData = useSelector(state => state);
+  const dispatch = useDispatch();
   const {store, persistor} = reduxStore();
 
   // to determine available note id for new note
@@ -46,11 +46,11 @@ function ViewNotes({navigation}){
     // stopping undefined warning
     if(storeData.notes.length > 0){
 
-      setLatestNoteId(findFreeId(storeData.notes))
+      setLatestNoteId(findFreeId(storeData.notes));
     }
     else{
 
-      setLatestNoteId(1)
+      setLatestNoteId(1);
     }
   }, [storeData])
 
@@ -65,9 +65,9 @@ function ViewNotes({navigation}){
 
   const deleteNote = id => {
 
-    deleteNoteFromTags(id)
-    dispatch(deletenote(id))
-    persistor.flush()
+    deleteNoteFromTags(id);
+    dispatch(deletenote(id));
+    persistor.flush();
   }
 
   // setting a height for flatlist items to improve flatlist performance

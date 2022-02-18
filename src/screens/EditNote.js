@@ -1,84 +1,89 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, View, ScrollView, ToastAndroid, Platform,
-          AlertIOS, TextInput } from 'react-native'
-import { Appbar } from 'react-native-paper'
-import { useSelector, useDispatch } from 'react-redux'
+          AlertIOS, TextInput } from 'react-native';
+import { Appbar } from 'react-native-paper';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { addnote, editnote } from '../reducers/notesApp'
-import reduxStore from '../reducers/store'
+import { addnote, editnote } from '../reducers/notesApp';
+import reduxStore from '../reducers/store';
 
 function EditNote({ route }) {
 
   const {store, persistor} = reduxStore();
 
-  const [noteTitle, setNoteTitle] = useState(route.params.item.note.noteTitle)
-  const [savedTitle, setSavedNoteTitle] = useState(route.params.item.note.noteTitle)
-  const [savedDescription, setSavedDescription] = useState(route.params.item.note.noteDescription)
-  const [noteDescription, setNoteDescription] = useState(route.params.item.note.noteDescription)
-  const [id, setId] = useState(route.params.item.id)
-  const [isNewNote, setIsNewNote] = useState(route.params.newNote)
-  const [shouldShowKeyboard, setShouldShowKeyboard] = useState(false)
+  const [noteTitle, setNoteTitle] = useState(route.params.item.note.noteTitle);
+  const [savedTitle, setSavedNoteTitle] = useState(route.params.item.note.noteTitle);
+  const [savedDescription, setSavedDescription] = useState(route.params.item.note.noteDescription);
+  const [noteDescription, setNoteDescription] = useState(route.params.item.note.noteDescription);
+  const [id, setId] = useState(route.params.item.id);
+  const [isNewNote, setIsNewNote] = useState(route.params.newNote);
+  const [shouldShowKeyboard, setShouldShowKeyboard] = useState(false);
 
-  const storeData = useSelector(state => state)
+  const storeData = useSelector(state => state);
 
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
   const inputRef2 = useRef(null);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // keyboard controls
 
   const showKeyboard = () => {
 
-    inputRef.current.focus()
+    inputRef.current.focus();
   }
 
   const showKeyboard2 = () => {
 
     if(isNewNote){
 
-      inputRef2.current.focus()
+      inputRef2.current.focus();
     }
     else{
 
-      inputRef2.current.blur()
+      inputRef2.current.blur();
     }
   }
   
   useEffect(() => {
 
+    // retrieve id for new note
     if(isNewNote){
-      setId(route.params.newId)
-      showKeyboard()
+
+      setId(route.params.newId);
+      showKeyboard();
     }
   }, []);
 
+  // ensure data saved to store
   useEffect(() => {
 
-    persistor.flush()
+    persistor.flush();
   
   }, [storeData]);
 
   // create new note
   const addNote = note => {
 
-    dispatch(addnote(note))
-    persistor.flush()
+    dispatch(addnote(note));
+    persistor.flush();
   }
 
   // update the note
   const editNote = (id, note) => {
 
-    dispatch(editnote(id, note))
+    dispatch(editnote(id, note));
   }
 
   // show toast message
   function notifyMessage(msg) {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(msg, ToastAndroid.SHORT)
+
+      ToastAndroid.show(msg, ToastAndroid.SHORT);
     }
     else{
+
       AlertIOS.alert(msg);
     }
   }
@@ -89,17 +94,17 @@ function EditNote({ route }) {
 
       if(isNewNote){
 
-        addNote({ noteTitle, noteDescription })
-        persistor.flush()
-        notifyMessage('Saved')
+        addNote({ noteTitle, noteDescription });
+        persistor.flush();
+        notifyMessage('Saved');
         setIsNewNote(false)
       }
       else{
 
-        editNote(id, { noteTitle, noteDescription })
-        persistor.flush()
-        notifyMessage('Saved')
-        setSavedDescription(noteDescription)
+        editNote(id, { noteTitle, noteDescription });
+        persistor.flush();
+        notifyMessage('Saved');
+        setSavedDescription(noteDescription);
       }
     }
   }
