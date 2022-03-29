@@ -4,16 +4,19 @@ import { Appbar } from 'react-native-paper'
 
 function Header({ titleText, subtitleText }) {
     return (
-        <Appbar.Header>
+        <Appbar.Header style={styles.headerStyle}>
             <Appbar.Content titleStyle={styles.titleStyle} subtitleStyle={styles.subtitleStyle} title={titleText} subtitle={subtitleText}/>
         </Appbar.Header>
     )
 }
 
 const styles = StyleSheet.create({
+    headerStyle:{
+        backgroundColor: '#fcba03',
+    },
     titleStyle:{
         textAlign: 'center',
-        fontSize: 22
+        fontSize: 22,
     },
     subtitleStyle:{
         textAlign: 'center',

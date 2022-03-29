@@ -10,6 +10,8 @@ import Header from '../components/Header';
 
 function ViewNotes({navigation}){
 
+  const [selectedNoteId, setSelectedNoteId] = useState(-1);
+
   const storeData = useSelector(state => state);
   const dispatch = useDispatch();
   const {store, persistor} = reduxStore();
@@ -65,7 +67,6 @@ function ViewNotes({navigation}){
 
   const deleteNote = id => {
 
-    deleteNoteFromTags(id);
     dispatch(deletenote(id));
     persistor.flush();
   }
@@ -107,7 +108,13 @@ function ViewNotes({navigation}){
             <FlatList
               style={{flex:1}}
               keyboardShouldPersistTaps={'always'}
-              data={storeData.notes}
+              data={storeData.notes.sort((a, b) => {
+
+                  const aDate = new Date(JSON.parse(JSON.stringify(a.date)))
+                  const bDate = new Date(JSON.parse(JSON.stringify(b.date)))
+              
+                  return aDate - bDate;
+              })}
               getItemLayout={getItemLayout}
               renderItem={renderItem}
               keyExtractor={item => item.id.toString()}
@@ -124,7 +131,7 @@ function ViewNotes({navigation}){
 
             <View>
               <Header
-                titleText='Confirm delete' subtitleText='Delete this note?'/>
+                titleText='Confirm delete' subtitleText='Delete this note?' />
 
               <View style={styles.dialogContainer}>
                 <View style={{marginBottom: 5 }}>
