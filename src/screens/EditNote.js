@@ -36,11 +36,11 @@ function EditNote({ route }) {
 
   const showKeyboard2 = () => {
 
-    if(isNewNote){
+    if (isNewNote){
 
       inputRef2.current.focus();
     }
-    else{
+    else {
 
       inputRef2.current.blur();
     }
@@ -49,7 +49,7 @@ function EditNote({ route }) {
   useEffect(() => {
 
     // retrieve id for new note
-    if(isNewNote){
+    if (isNewNote){
 
       setId(route.params.newId);
       showKeyboard();
@@ -82,7 +82,7 @@ function EditNote({ route }) {
 
       ToastAndroid.show(msg, ToastAndroid.SHORT);
     }
-    else{
+    else {
 
       AlertIOS.alert(msg);
     }
@@ -90,16 +90,16 @@ function EditNote({ route }) {
 
   function onSaveNote() {
 
-    if(noteDescription != savedDescription || noteTitle != savedTitle){
+    if (noteDescription != savedDescription || noteTitle != savedTitle){
 
-      if(isNewNote){
+      if (isNewNote){
 
         addNote({ noteTitle, noteDescription });
         persistor.flush();
         notifyMessage('Saved');
         setIsNewNote(false)
       }
-      else{
+      else {
 
         editNote(id, { noteTitle, noteDescription });
         persistor.flush();
@@ -115,7 +115,7 @@ function EditNote({ route }) {
 
     <TextInput
       value={noteTitle}
-      mode='outlined'
+      mode="outlined"
       onChangeText={setNoteTitle}
       style={styles.title}
       ref={inputRef}
@@ -123,12 +123,11 @@ function EditNote({ route }) {
     />
     
     <ScrollView
-      contentContainerStyle={[{flexGrow:1}]}
-      style={{flex:1}}
+      contentContainerStyle={styles.scrollContainer}
+      style={styles.scrollContents}
       overScrollMode="never"
       ref={scrollRef}
     >
-
       <TextInput
         value={noteDescription}
         onChangeText={setNoteDescription}
@@ -137,12 +136,12 @@ function EditNote({ route }) {
         style={styles.text}
         ref={inputRef2}
         autoFocus={true}
-        textAlignVertical= 'top'
+        textAlignVertical="top"
         spellCheck={false}
         autoCorrect={false}
         scrollEnabled={false}
         showSoftInputOnFocus={shouldShowKeyboard}
-        onFocus={(event) => setShouldShowKeyboard(true)}
+        onFocus={() => setShouldShowKeyboard(true)}
       />
     </ScrollView>
 
@@ -159,7 +158,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
   },
-    iconButton:{
+  scrollContainer: {
+    flexGrow: 1,
+  },
+  scrollContents: {
+    flex: 1,
+  },
+  iconButton:{
     backgroundColor: '#219653',
     position: 'absolute',
     right: 0,
@@ -206,7 +211,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fcba03',
     borderTopWidth: 1,
     backgroundColor: 'black',
-    borderColor: '#fcba03'
+    borderColor: '#fcba03',
   },
 })
 

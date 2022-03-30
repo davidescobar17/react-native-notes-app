@@ -8,7 +8,7 @@ import { deletenote } from '../reducers/notesApp';
 import reduxStore from '../reducers/store';
 import Header from '../components/Header';
 
-function ViewNotes({navigation}){
+function ViewNotes({navigation}) {
 
   const [selectedNoteId, setSelectedNoteId] = useState(-1);
 
@@ -19,17 +19,17 @@ function ViewNotes({navigation}){
   // to determine available note id for new note
 
   // get a free id for a new note
-  function findFreeId (array){
+  function findFreeId (array) {
 
     const sortedArray = array
       .slice()
-      .sort(function (a, b){return a.id - b.id});
+      .sort(function (a, b) {return a.id - b.id});
 
     let previousId = 0;
 
-    for(let element of sortedArray){
+    for (let element of sortedArray) {
 
-      if (element.id != (previousId + 1)){
+      if (element.id != (previousId + 1)) {
 
         return previousId + 1;
       }
@@ -46,11 +46,11 @@ function ViewNotes({navigation}){
   useEffect(() => {
 
     // stopping undefined warning
-    if(storeData.notes.length > 0){
+    if (storeData.notes.length > 0) {
 
       setLatestNoteId(findFreeId(storeData.notes));
     }
-    else{
+    else {
 
       setLatestNoteId(1);
     }
@@ -104,9 +104,9 @@ function ViewNotes({navigation}){
           <View style={styles.noItemsMessageContainer}>
           </View>
           ) : (
-          <View style={{flex:1, flexDirection:'row'}}>
+          <View style={styles.notesContainer}>
             <FlatList
-              style={{flex:1}}
+              style={styles.notesList}
               keyboardShouldPersistTaps={'always'}
               data={storeData.notes.sort((a, b) => {
 
@@ -134,9 +134,9 @@ function ViewNotes({navigation}){
                 titleText='Confirm delete' subtitleText='Delete this note?' />
 
               <View style={styles.dialogContainer}>
-                <View style={{marginBottom: 5 }}>
+                <View style={{marginBottom: 5}}>
                   <PaperButton mode="contained" uppercase={false}
-                    theme={{colors:{primary:'#fcba03'}}}
+                    theme={{colors:{primary: '#fcba03'}}}
                     contentStyle={styles.button} labelStyle={styles.buttonText}
                     onPress={() => {deleteNote(selectedNoteId); toggleOverlayDeleteNoteConfirm();}}>
                     Delete
@@ -144,7 +144,7 @@ function ViewNotes({navigation}){
                 </View>
 
                 <PaperButton mode="contained" uppercase={false}
-                  theme={{colors:{primary:'#fcba03'}}}
+                  theme={{colors:{primary: '#fcba03'}}}
                   contentStyle={styles.button} labelStyle={styles.buttonText}
                   onPress={() => toggleOverlayDeleteNoteConfirm()}>
                   Back
@@ -155,7 +155,7 @@ function ViewNotes({navigation}){
 
         <Appbar style={styles.optionsBar}>
           <Appbar.Action icon="plus"
-            onPress={() => navigation.navigate('EditNote', {item:{note:{noteTitle:"", noteDescription: ""}},
+            onPress={() => navigation.navigate('EditNote', {item:{note:{noteTitle: '', noteDescription: ''}},
             newNote: true, newId: latestNoteId })}/>
         </Appbar>
       </View>
@@ -173,6 +173,13 @@ const styles = StyleSheet.create({
   noItemsMessageContainer:{
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  notesContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  notesList: {
+    flex: 1,
   },
   title:{
     fontSize: 20,
@@ -229,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fcba03',
     borderTopWidth: 1,
     backgroundColor: 'black',
-    borderColor: '#fcba03'
+    borderColor: '#fcba03',
   },
   wholeContainer:{
     flex: 1,
